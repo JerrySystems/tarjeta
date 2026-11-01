@@ -32,338 +32,313 @@
 <link rel="canonical" href="https://jerrysystems.github.io/tarjeta/">
 
 <style>
-  * {
-    -webkit-user-select: none !important;
-    -moz-user-select: none !important;
-    -ms-user-select: none !important;
-    user-select: none !important;
-    -webkit-touch-callout: none !important;
-  }
+:root{
+  --bg:#0B1220;
+  --surface:#141F35;
+  --accent:#58C0E0;
+  --accent2:#F8E038;
+  --text:#F2F6FF;
+  --muted:#8FA3C0;
+  --line:rgba(255,255,255,.10);
+  --radius:20px;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg);color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  font-size:16px;line-height:1.5;
+  min-height:100vh;min-height:100dvh;
+  display:flex;justify-content:center;
+  padding:calc(24px + env(safe-area-inset-top)) 16px calc(40px + env(safe-area-inset-bottom));
+  position:relative;overflow-x:hidden;
+}
+/* halos de fondo */
+body::before,body::after{
+  content:"";position:fixed;border-radius:50%;filter:blur(90px);
+  pointer-events:none;z-index:0;
+}
+body::before{width:420px;height:420px;top:-160px;left:-120px;background:color-mix(in srgb,var(--accent) 26%,transparent)}
+body::after{width:360px;height:360px;bottom:-140px;right:-120px;background:color-mix(in srgb,var(--accent) 14%,transparent)}
+
+.wrap{width:100%;max-width:460px;position:relative;z-index:1}
+
+/* ---------- entrada animada ----------
+   El contenido es visible por defecto. Solo se oculta para animarlo cuando el
+   navegador ejecuta animaciones y el usuario no pidio reducir movimiento, asi
+   que al imprimir, leer con un lector de pantalla o capturar la pagina la
+   tarjeta se ve completa. */
+.reveal{opacity:1}
+@media (prefers-reduced-motion:no-preference){
+  html.anim .reveal{opacity:0;transform:translateY(14px);
+    animation:rise .62s cubic-bezier(.22,1,.36,1) forwards}
+  html.anim .d1{animation-delay:.05s}
+  html.anim .d2{animation-delay:.12s}
+  html.anim .d3{animation-delay:.19s}
+  html.anim .d4{animation-delay:.26s}
+  html.anim .d5{animation-delay:.33s}
+  html.anim .d6{animation-delay:.40s}
+  @keyframes rise{to{opacity:1;transform:none}}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+@media print{
+  html.anim .reveal{opacity:1!important;transform:none!important;animation:none!important}
+}
+
+/* ---------- cabecera ---------- */
+.hero{text-align:center;padding:8px 0 22px}
+.avatar{
+  width:132px;height:132px;margin:0 auto 18px;border-radius:50%;
+  padding:3px;background:linear-gradient(140deg,var(--accent),var(--accent2));
+  box-shadow:0 12px 40px -12px color-mix(in srgb,var(--accent) 70%,transparent);
+}
+.avatar img{width:100%;height:100%;border-radius:50%;display:block;object-fit:cover;background:var(--surface)}
+.org{
+  margin:0 0 6px;font-size:11px;font-weight:700;letter-spacing:.20em;
+  text-transform:uppercase;color:var(--accent);
+}
+h1{margin:0;font-size:33px;line-height:1.14;font-weight:800;letter-spacing:-.022em}
+.tagline{margin:9px 0 0;color:var(--muted);font-size:15px}
+.chips{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;margin-top:14px}
+.chip{
+  font-size:11.5px;font-weight:600;letter-spacing:.02em;color:var(--muted);
+  border:1px solid var(--line);border-radius:999px;padding:5px 11px;
+  background:color-mix(in srgb,var(--surface) 60%,transparent);
+}
+
+/* ---------- botones grandes ---------- */
+.stack{display:grid;gap:11px;margin-bottom:12px}
+.btn{
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  min-height:56px;border-radius:var(--radius);border:1px solid transparent;
+  font-size:16.5px;font-weight:700;letter-spacing:-.01em;
+  text-decoration:none;cursor:pointer;width:100%;
+  transition:transform .16s ease,box-shadow .2s ease,background .2s ease;
+}
+.btn:active{transform:scale(.975)}
+.btn svg{width:21px;height:21px;flex:none}
+.btn-primary{
+  background:linear-gradient(135deg,var(--accent),color-mix(in srgb,var(--accent) 55%,#2a6fd6));
+  color:#061018;box-shadow:0 10px 26px -12px color-mix(in srgb,var(--accent) 85%,transparent);
+}
+.btn-wallet{background:#000;color:#fff;border-color:#2a2a2a;box-shadow:0 10px 26px -14px #000}
+.btn-wallet svg{width:19px;height:23px;margin-top:-2px}
+.btn-ghost{
+  background:color-mix(in srgb,var(--surface) 75%,transparent);
+  color:var(--text);border-color:var(--line);
+}
+.hint{
+  margin:-3px 0 14px;font-size:12px;color:var(--muted);text-align:center;
+  display:flex;align-items:center;justify-content:center;gap:6px;
+}
+.hint .dot{width:6px;height:6px;border-radius:50%;background:var(--accent2);flex:none}
+
+/* ---------- rejilla de acciones ---------- */
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:12px}
+.tile{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;
+  padding:18px 10px;border-radius:var(--radius);text-decoration:none;
+  background:color-mix(in srgb,var(--surface) 82%,transparent);
+  border:1px solid var(--line);color:var(--text);
+  font-size:14.5px;font-weight:600;min-height:104px;overflow:hidden;
+  transition:transform .16s ease,border-color .2s ease,background .2s ease;
+}
+.tile:active{transform:scale(.975)}
+.tile:hover{border-color:color-mix(in srgb,var(--accent) 45%,transparent)}
+.tile .ico{
+  width:42px;height:42px;border-radius:13px;display:grid;place-items:center;
+  background:color-mix(in srgb,var(--accent) 15%,transparent);
+  border:1px solid color-mix(in srgb,var(--accent) 30%,transparent);
+}
+.tile .ico svg{width:20px;height:20px;stroke:var(--accent);fill:none;
+  stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.tile small{display:block;align-self:stretch;text-align:center;font-size:11px;
+  font-weight:500;color:var(--muted);margin-top:2px;overflow:hidden;
+  text-overflow:ellipsis;white-space:nowrap}
+
+/* ---------- panel QR ---------- */
+details.qr{
+  background:color-mix(in srgb,var(--surface) 82%,transparent);
+  border:1px solid var(--line);border-radius:var(--radius);
+  margin-bottom:12px;overflow:hidden;
+}
+details.qr summary{
+  padding:17px 18px;cursor:pointer;font-size:14.5px;font-weight:600;
+  display:flex;align-items:center;gap:11px;list-style:none;
+}
+details.qr summary::-webkit-details-marker{display:none}
+details.qr summary .ico{
+  width:38px;height:38px;border-radius:11px;display:grid;place-items:center;flex:none;
+  background:color-mix(in srgb,var(--accent) 15%,transparent);
+  border:1px solid color-mix(in srgb,var(--accent) 30%,transparent);
+}
+details.qr summary .ico svg{width:18px;height:18px;stroke:var(--accent);fill:none;
+  stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+details.qr summary .arrow{margin-left:auto;color:var(--muted);transition:transform .25s ease}
+details.qr[open] summary .arrow{transform:rotate(180deg)}
+.qr-body{padding:2px 18px 20px;text-align:center}
+.qr-body img{
+  width:100%;max-width:236px;border-radius:14px;background:#fff;padding:10px;display:block;margin:0 auto 12px;
+}
+.qr-body p{margin:0;font-size:12.5px;color:var(--muted);line-height:1.55}
+
+/* ---------- redes ---------- */
+.socials{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:14px}
+.socials a{
+  display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:999px;
+  background:color-mix(in srgb,var(--surface) 82%,transparent);
+  border:1px solid var(--line);color:var(--text);text-decoration:none;
+  font-size:13.5px;font-weight:600;transition:transform .16s ease,border-color .2s ease;
+}
+.socials a:active{transform:scale(.96)}
+.socials a:hover{border-color:color-mix(in srgb,var(--accent) 45%,transparent)}
+.socials svg{width:17px;height:17px;fill:currentColor}
+
+footer{text-align:center;padding-top:6px}
+.copy{
+  font-size:11.5px;color:var(--muted);opacity:.75;margin:16px 0 0;line-height:1.7;
+}
+.copy a{color:var(--muted)}
+
+/* ---------- toast ---------- */
+#toast{
+  position:fixed;left:50%;bottom:calc(28px + env(safe-area-inset-bottom));
+  transform:translate(-50%,26px);opacity:0;pointer-events:none;
+  background:#fff;color:#061018;font-size:14px;font-weight:650;
+  padding:12px 20px;border-radius:999px;z-index:60;white-space:nowrap;
+  box-shadow:0 14px 34px -12px rgba(0,0,0,.6);
+  transition:opacity .26s ease,transform .26s cubic-bezier(.22,1,.36,1);
+}
+#toast.on{opacity:1;transform:translate(-50%,0)}
 </style>
+<script>document.documentElement.classList.add("anim");</script>
 </head>
-<body oncontextmenu="return false;">
+<body>
+<div class="wrap">
+
+  <header class="hero reveal d1">
+    <div class="avatar"><img src="avatar.png" alt="Foto de Jerry Osorno" width="132" height="132"></div>
+    <p class="org">Jerry Systems</p>
+    <h1>Jerry Osorno</h1>
+    
+    <p class="tagline">La Tecnologia a tu alcance</p>
+    <div class="chips">
+      <span class="chip">Puebla, Mexico</span>
+      <span class="chip">Tarjeta NFC</span>
+    </div>
+  </header>
+
+  <section class="stack reveal d2">
+    <a class="btn btn-primary" href="Jerry-osorno.vcf">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/><path d="M18 8v6M15 11h6"/></svg>
+      Guardar contacto
+    </a>
+    
+  </section>
+
+  <section class="grid reveal d3">
+    <a class="tile" href="tel:+522204757459">
+      <span class="ico"><svg viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg></span>
+      Llamar<small>220 475 7459</small>
+    </a>
+    <a class="tile" href="https://wa.me/522204757459?text=Hola%20Jerry%2C%20vi%20tu%20tarjeta%20digital%20y%20quiero%20informacion%20sobre%20" target="_blank" rel="noopener">
+      <span class="ico"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.4 8.4 0 0 1-12.5 7.4L3.5 20.5l1.6-4.9A8.4 8.4 0 1 1 21 11.5z"/><path d="M8.9 8.4c.2-.5.4-.5.7-.5h.6c.2 0 .5 0 .7.5l.8 1.8c.1.3.1.5 0 .7l-.5.7c-.2.2-.2.4-.1.6a6.4 6.4 0 0 0 2.8 2.4c.3.1.5.1.7-.1l.6-.7c.2-.2.4-.2.6-.1l1.8.9c.4.2.5.4.5.7 0 .1 0 1-.6 1.7-.5.6-1.3.9-2.1.9a10 10 0 0 1-8.1-8c0-.8.4-1.6 1-2.1z"/></svg></span>
+      WhatsApp<small>220 475 7459</small>
+    </a>
+    <a class="tile" href="mailto:jerry.systems@icloud.com">
+      <span class="ico"><svg viewBox="0 0 24 24"><rect x="2.5" y="4.5" width="19" height="15" rx="2.5"/><path d="m3 7 8.1 5.6a1.6 1.6 0 0 0 1.8 0L21 7"/></svg></span>
+      Correo<small>jerry.systems@icloud.com</small>
+    </a>
+    <a class="tile" href="https://jerrysystems.com/" target="_blank" rel="noopener">
+      <span class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3.2 9.5h17.6M3.2 14.5h17.6"/><path d="M12 3a15 15 0 0 1 0 18 15 15 0 0 1 0-18z"/></svg></span>
+      Sitio web<small>jerrysystems.com</small>
+    </a>
+  </section>
+
+  <details class="qr reveal d4">
+    <summary>
+      <span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.4"/><rect x="14" y="3" width="7" height="7" rx="1.4"/><rect x="3" y="14" width="7" height="7" rx="1.4"/><path d="M14 14h3v3h-3zM20 14v3M17 20h4M14 20h.01"/></svg></span>
+      Mostrar código QR
+      <svg class="arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+    </summary>
+    <div class="qr-body">
+      <img src="qr-card.png" alt="Código QR de la tarjeta de Jerry Osorno" width="236" height="236" loading="lazy">
+      <p>Muestra este código para que guarden tu contacto al instante, o pídeles que acerquen su teléfono a tu tarjeta NFC.</p>
+    </div>
+  </details>
+
+  <section class="socials reveal d5">
+  <a href="https://www.facebook.com/people/Jerry-Systems/61576118799486/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.4v7A10 10 0 0 0 22 12z"/></svg>Facebook</a>
+  <a href="https://www.youtube.com/@jerrysystems" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M23 12s0-3.4-.4-5a2.6 2.6 0 0 0-1.8-1.9C19.1 4.7 12 4.7 12 4.7s-7.1 0-8.8.4A2.6 2.6 0 0 0 1.4 7C1 8.6 1 12 1 12s0 3.4.4 5a2.6 2.6 0 0 0 1.8 1.9c1.7.4 8.8.4 8.8.4s7.1 0 8.8-.4a2.6 2.6 0 0 0 1.8-1.9c.4-1.6.4-5 .4-5zM9.8 15.3V8.7l5.7 3.3z"/></svg>YouTube</a>
+  </section>
+
+  <footer class="reveal d6">
+    <button class="btn btn-ghost" id="shareBtn" type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v7a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7"/><path d="M16 6l-4-4-4 4M12 2v14"/></svg>
+      Compartir mi tarjeta
+    </button>
+    <p class="copy">
+      © 2026 Jerry Systems · Puebla, Mexico<br>
+      <a href="https://jerrysystems.com/">jerrysystems.com</a>
+    </p>
+  </footer>
+</div>
+
+<div id="toast" role="status" aria-live="polite"></div>
 
 <script>
 (function(){
   "use strict";
+  // Respaldo: pase lo que pase, el contenido queda visible como maximo en 1,8 s.
+  setTimeout(function(){document.documentElement.classList.remove("anim");},1800);
 
-  // 1. Bloqueo de atajos (F12, Ctrl/Cmd + U, S, Shift + I/J/C)
-  window.addEventListener("keydown", function(e) {
-    if (e.key === "F12" || e.keyCode === 123) {
-      e.preventDefault(); e.stopPropagation(); return false;
-    }
-    if ((e.ctrlKey || e.metaKey) && (e.key === "u" || e.key === "U" || e.keyCode === 85)) {
-      e.preventDefault(); e.stopPropagation(); return false;
-    }
-    if ((e.ctrlKey || e.metaKey) && (e.key === "s" || e.key === "S" || e.keyCode === 83)) {
-      e.preventDefault(); e.stopPropagation(); return false;
-    }
-    if ((e.ctrlKey || e.metaKey) && (e.shiftKey || e.altKey)) {
-      var k = (e.key || "").toUpperCase();
-      if (k === "I" || k === "J" || k === "C" || e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67) {
-        e.preventDefault(); e.stopPropagation(); return false;
-      }
-    }
-  }, true);
+  var toast=document.getElementById("toast"),t;
+  function say(msg){toast.textContent=msg;toast.classList.add("on");
+    clearTimeout(t);t=setTimeout(function(){toast.classList.remove("on")},2100);}
 
-  // 2. Bloqueo de clic derecho y arrastre
-  document.addEventListener("contextmenu", function(e){ e.preventDefault(); }, false);
-  document.addEventListener("dragstart", function(e){ e.preventDefault(); }, false);
-
-  // 3. Cadena empaquetada
-  var _data = "PHN0eWxlPgogIDpyb290ewogICAgLS1iZzojMEIxMjIwOwogICAgLS1zdXJmYWNlOiMxNDFGM" +
-  "zU7CiAgICAtLWFjY2VudDojNThDMEUwOwogICAgLS1hY2NlbnQyOiNGOEUwMzg7CiAgICAtLXRle" +
-  "HQ6I0YyRjZGRjsKICAgIC0tbXV0ZWQ6IzhGQTMzQzA7CiAgICAtLWxpbmU6cmdiYSgyNTUsMjU1L" +
-  "DI1NSwuMTApOwogICAgLS1yYWRpdXM6MjBweDsKICB9CiAgKntib3gtc2l6aW5nOmJvcmRlci1ib" +
-  "3g7LXdlYmtpdC10YXAtaGlnaGxpZ2h0LWNvbG9yOnRyYW5zcGFyZW50fQogIGh0bWwsYm9keXttY" +
-  "XJnaW46MDtwYWRkaW5nOjB9CiAgYm9keXsKICAgIGJhY2tncm91bmQ6dmFyKC0tYmcpO2NvbG9yO" +
-  "nZhcigtLXRleHQpOwogICAgZm9udC1mYW1pbHk6LWFwcGxlLXN5c3RlbSxCbGlua01hY1N5c3Rlb" +
-  "UZvbnQsIlNGIFBybyBEaXNwbGF5IiwiU2Vnb2UgVUkiLFJvYm90byxIZWx2ZXRpY2EsQXJpYWwsc" +
-  "2Fucy1zZXJpZjsKICAgIGZvbnQtc2l6ZToxNnB4O2xpbmUtaGVpZ2h0OjEuNTsKICAgIG1pbi1oZ" +
-  "WlnaHQ6MTAwdmg7bWluLWhlaWdodDoxMDBkdmg7CiAgICBkaXNwbGF5OmZsZXg7anVzdGlmeS1jb" +
-  "250ZW50OmNlbnRlcjsKICAgIHBhZGRpbmc6Y2FsYygyNHB4ICsgZW52KHNhZmUtYXJlYS1pbnNld" +
-  "C10b3ApKSAxNnB4IGNhbGMoNDBweCArIGVudihzYWZlLWFyZWEtaW5zZXQtYm90dG9tKSk7CiAgI" +
-  "CBwb3NpdGlvbjpyZWxhdGl2ZTtvdmVyZmxvdy14OmhpZGRlbjsKICB9CiAgYm9keTo6YmVmb3JlL" +
-  "GJvZHk6OmFmdGVyewogICAgY29udGVudDoiIjtwb3NpdGlvbjpmaXhlZDtib3JkZXItcmFkaXVzO" +
-  "jUwJTtmaWx0ZXI6Ymx1cig5MHB4KTsKICAgIHBvaW50ZXItZXZlbnRzOm5vbmU7ei1pbmRleDowO" +
-  "wogIH0KICBib2R5OjpiZWZvcmV7d2lkdGg6NDIwcHg7aGVpZ2h0OjQyMHB4O3RvcDotMTYwcHg7b" +
-  "GVmdDotMTIwcHg7YmFja2dyb3VuZDpjb2xvci1taXgoaW4gc3JnYix2YXIoLS1hY2NlbnQpIDI2J" +
-  "Sx0cmFuc3BhcmVudCl9CiAgYm9keTo6YWZ0ZXJ7d2lkdGg6MzYwcHg7aGVpZ2h0OjM2MHB4O2Jvd" +
-  "HRvbTotMTQwcHg7cmlnaHQ6LTEyMHB4O2JhY2tncm91bmQ6Y29sb3ItbWl4KGluIHNyZ2IsdmFyK" +
-  "C0tYWNjZW50KSAxNCUsdHJhbnNwYXJlbnQpfQogIC53cmFwe3dpZHRoOjEwMCU7bWF4LXdpZHRoO" +
-  "jQ2MHB4O3Bvc2l0aW9uOnJlbGF0aXZlO3otaW5kZXg6MX0KICAucmV2ZWFse29wYWNpdHk6MX0KI" +
-  "EBtZWRpYSAocHJlZmVycy1yZWR1Y2VkLW1vdGlvbjpuby1wcmVmZXJlbmNlKXsKICAgIGh0bWwuY" +
-  "W5pbSAucmV2ZWFse29wYWNpdHk6MDt0cmFuc2Zvcm06dHJhbnNsYXRlWSgxNHB4KTthbmltYXRpb" +
-  "246cmlzZSAuNjJzIGN1YmljLWJlemllcigwLjIyLDEsMC4zNiwxKSBmb3J3YXJkc30KICAgIGh0b" +
-  "WwuYW5pbSAuZDF7YW5pbWF0aW9uLWRlbGF5Oi4wNXN9CiAgICBodG1sLmFuaW0gLmQye2FuaW1hd" +
-  "Glvbi1kZWxheTouMTJzfQogICAgaHRtbC5hbmltIC5kM3thbmltYXRpb24tZGVsYXk6LjE5c30KI" +
-  "CAgaHRtbC5hbmltIC5kNHthbmltYXRpb24tZGVsYXk6LjI2c30KICAgIGh0bWwuYW5pbSAuZDV7Y" +
-  "W5pbWF0aW9uLWRlbGF5Oi4zM3N9CiAgICBodG1sLmFuaW0gLmQ2e2FuaW1hdGlvbi1kZWxheTouN" +
-  "DBzfQogICAgQGtleWZyYW1lcyByaXNle3Rve29wYWNpdHk6MTt0cmFuc2Zvcm06bm9uZX19CiAgf" +
-  "QogIEBtZWRpYSAocHJlZmVycy1yZWR1Y2VkLW1vdGlvbjpyZWR1Y2Upeyp7dHJhbnNpdGlvbjpub" +
-  "25lIWltcG9ydGFudH19CiAgQG1lZGlhIHByaW50e2h0bWwuYW5pbSAucmV2ZWFse29wYWNpdHk6M" +
-  "SFpbXBvcnRhbnQ7dHJhbnNmb3JtOm5vbmUhaW1wb3J0YW50O2FuaW1hdGlvbjpub25lIWltcG9yd" +
-  "GFudH19CiAgLmhlcm97dGV4dC1hbGlnbjpjZW50ZXI7cGFkZGluZzo4cHggMCAyMnB4fQogIC5hd" +
-  "mF0YXJ7d2lkdGg6MTMycHg7aGVpZ2h0OjEzMnB4O21hcmdpbjowIGF1dG8gMThweDtib3JkZXItc" +
-  "mFkaXVzOjUwJTtwYWRkaW5nOjNweDtiYWNrZ3JvdW5kOmxpbmVhci1ncmFkaWVudCgxNDBkZWcsdm" +
-  "FyKC0tYWNjZW50KSx2YXIoLS1hY2NlbnQyKSk7Ym94LXNoYWRvdzowIDEycHggNDBweCAtMTJweCB" +
-  "jb2xvci1taXgoaW4gc3JnYix2YXIoLS1hY2NlbnQpIDcwJSx0cmFuc3BhcmVudCl9CiAgLmF2YXRh" +
-  "ciBpbWd7d2lkdGg6MTAwJTtoZWlnaHQ6MTAwJTtib3JkZXItcmFkaXVzOjUwJTtkaXNwbGF5OmJsb" +
-  "2NrO29iamVjdC1maXQ6Y292ZXI7YmFja2dyb3VuZDp2YXIoLS1zdXJmYWNlKX0KICAub3Jne21hc" +
-  "mdpbjowIDAgNnB4O2ZvbnQtc2l6ZToxMXB4O2ZvbnQtd2VpZ2h0OjcwMDtsZXR0ZXItc3BhY2luZ" +
-  "zouMjBlbTt0ZXh0LXRyYW5zZm9ybTp1cHBlcmNhc2U7Y29sb3I6dmFyKC0tYWNjZW50KX0KICBoM" +
-  "XttYXJnaW46MDtmb250LXNpemU6MzNweDtsaW5lLWhlaWdodDoxLjE0O2ZvbnQtd2VpZ2h0OjgwM" +
-  "DtsZXR0ZXItc3BhY2luZzotLjAyMmVtfQogIC50YWdsaW5le21hcmdpbjo5cHggMCAwO2NvbG9yO" +
-  "nZhcigtLW11dGVkKTtmb250LXNpemU6MTVweH0KICAuY2hpcHN7ZGlzcGxheTpmbGV4O2ZsZXgtd" +
-  "3JhcDp3cmFwO2dhcDo3cHg7anVzdGlmeS1jb250ZW50OmNlbnRlcjttYXJnaW4tdG9wOjE0cHh9C" +
-  "iAgLmNoaXB7Zm9udC1zaXplOjExLjVweDtmb250LXdlaWdodDo2MDA7bGV0dGVyLXNwYWNpbmc6L" +
-  "jAyZW07Y29sb3I6dmFyKC0tbXV0ZWQpO2JvcmRlcjoxcHggc29saWQgdmFyKC0tbGluZSk7Ym9yZ" +
-  "GVyLXJhZGl1czo5OTlweDtwYWRkaW5nOjVweCAxMXB4O2JhY2tncm91bmQ6Y29sb3ItbWl4KGluI" +
-  "HNyZ2IsdmFyKC0tc3VyZmFjZSkgNjAlLHRyYW5zcGFyZW50KX0KICAuc3RhY2t7ZGlzcGxheTpncm" +
-  "lkO2dhcDoxMXB4O21hcmdpbi1ib3R0b206MTJweH0KICAuYnRue2Rpc3BsYXk6ZmxleDthbGlnbi1" +
-  "pdGVtczpjZW50ZXI7anVzdGlmeS1jb250ZW50OmNlbnRlcjtnYXA6MTBweDttaW4taGVpZ2h0OjU" +
-  "2cHg7Ym9yZGVyLXJhZGl1czp2YXIoLS1yYWRpdXMpO2JvcmRlcjoxcHggc29saWQgdHJhbnNwYXJ" +
-  "lbnQ7Zm9udC1zaXplOjE2LjVweDtmb250LXdlaWdodDo3MDA7bGV0dGVyLXNwYWNpbmc6LS4wMWV" +
-  "tO3RleHQtZGVjb3JhdGlvbjpub25lO2N1cnNvcjpwb2ludGVyO3dpZHRoOjEwMCU7dHJhbnNpdGl" +
-  "vbjp0cmFuc2Zvcm0gLjE2cyBlYXNlLGJveC1zaGFkb3cgLjJzIGVhc2UsYmFja2dyb3VuZCAuMnM" +
-  "gZWFzZX0KICAuYnRuOmFjdGl2ZXt0cmFuc2Zvcm06c2NhbGUoLjk3NSl9CiAgLmJ0biBzcmd7d2l" +
-  "kdGg6MjFweDtoZWlnaHQ6MjFweDtmbGV4Om5vbmV9CiAgLmJ0bi1wcmltYXJ5e2JhY2tncm91bmQ" +
-  "6bGluZWFyLWdyYWRpZW50KDEzNWRlZyx2YXIoLS1hY2NlbnQpLGNvbG9yLW1peChpbiBzcmdiLXZ" +
-  "hcigtLWFjY2VudCkgNTUlLCMyYTZmZDYpKTtjb2xvcjojMDYxMDE4O2JveC1zaGFkb3c6MCAxMHB" +
-  "4IDI2cHggLTEycHggY29sb3ItbWl4KGluIHNyZ2IsdmFyKC0tYWNjZW50KSA4NSUsdHJhbnNwYXJ" +
-  "lbnQpfQogIC5idG4tZ2hvc3R7YmFja2dyb3VuZDpjb2xvci1taXgoaW4gc3JnYix2YXIoLS1zdXJ" +
-  "mYWNlKSA3NSUsdHJhbnNwYXJlbnQpO2NvbG9yOnZhcigtLXRleHQpO2JvcmRlci1jb2xvcjp2YXI" +
-  "oLS1saW5lKX0KICAuZ3JpZHtkaXNwbGF5OmdyaWQ7Z3JpZC10ZW1wbGF0ZS1jb2x1bW5zOjFmciA" +
-  "xZnI7Z2FwOjExcHg7bWFyZ2luLWJvdHRvbToxMnB4fQogIC50aWxle2Rpc3BsYXk6ZmxleDtmbGV" +
-  "4LWRpcmVjdGlvbjpjb2x1bW47YWxpZ24taXRlbXM6Y2VudGVyO2p1c3RpZnktY29udGVudDpjZW5" +
-  "0ZXI7Z2FwOjlweDtwYWRkaW5nOjE4cHggMTBweDtib3JkZXItcmFkaXVzOnZhcigtLXJhZGl1cyk" +
-  "7dGV4dC1kZWNvcmF0aW9uOm5vbmU7YmFja2dyb3VuZDpjb2xvci1taXgoaW4gc3JnYix2YXIoLS1" +
-  "zdXJmYWNlKSA4MiUsdHJhbnNwYXJlbnQpO2JvcmRlcjoxcHggc29saWQgdmFyKC0tbGluZSk7Y29" +
-  "sb3I6dmFyKC0tdGV4dCk7Zm9udC1zaXplOjE0LjVweDtmb250LXdlaWdodDo2MDA7bWluLWhlaWd" +
-  "odDoxMDRweDtvdmVyZmxvdzpoaWRkZW47dHJhbnNpdGlvbjp0cmFuc2Zvcm0gLjE2cyBlYXNlLGJ" +
-  "veC1zaGFkb3cgLjJzIGVhc2UsYm9yZGVyLWNvbG9yIC4ycyBlYXNlLGJhY2tncm91bmQgLjJzIGV" +
-  "hc2V9CiAgLnRpbGU6YWN0aXZle3RyYW5zZm9ybTpzY2FsZSguOTc1KX0KICAudGlsZTpob3Zlcnt" +
-  "ib3JkZXItY29sb3I6Y29sb3ItbWl4KGluIHNyZ2IsdmFyKC0tYWNjZW50KSA0NSUsdHJhbnNwYXJ" +
-  "lbnQpfQogIC50aWxlIC5pY297d2lkdGg6NDJweDtoZWlnaHQ6NDJweDtib3JkZXItcmFkaXVzOjE" +
-  "zcHg7ZGlzcGxheTpncmlkO3BsYWNlLWl0ZW1zOmNlbnRlcjtiYWNrZ3JvdW5kOmNvbG9yLW1peCh" +
-  "pbiBzcmdiLHZhcigtLWFjY2VudCkgMTUlLHRyYW5zcGFyZW50KTtib3JkZXI6MXB4IHNvbGlkIGN" +
-  "vbG9yLW1peChpbiBzcmdiLHZhcigtLWFjY2VudCkgMzAlLHRyYW5zcGFyZW50KX0KICAudGlsZSA" +
-  "uaWNvIHN2Z3t3aWR0aDoyMHB4O2hlaWdodDoyMHB4O3N0cm9rZTp2YXIoLS1hY2NlbnQpO2ZpbGw" +
-  "6bm9uZTtzdHJva2Utd2lkdGg6MS45O3N0cm9rZS1saW5lY2FwOnJvdW5kO3N0cm9rZS1saW5lam9" +
-  "pbjpyb3VuZH0KICAudGlsZSBzbWFsbHtkaXNwbGF5OmJsb2NrO2FsaWduLXNlbGY6c3RyZXRjaDt" +
-  "0ZXh0LWFsaWduOmNlbnRlcjtmb250LXNpemU6MTFweDtmb250LXdlaWdodDo1MDA7Y29sb3I6dmF" +
-  "yKC0tbXV0ZWQpO21hcmdpbi10b3A6MnB4O292ZXJmbG93OmhpZGRlbjt0ZXh0LW92ZXJmbG93OmV" +
-  "sbGlwc2lzO3doaXRlLXNwYWNlOm5vd3JhcH0KICBkZXRhaWxzLnFye2JhY2tncm91bmQ6Y29sb3I" +
-  "tbWl4KGluIHNyZ2IsdmFyKC0tc3VyZmFjZSkgODIlLHRyYW5zcGFyZW50KTtib3JkZXI6MXB4IHN" +
-  "vbGlkIHZhcigtLWxpbmUpO2JvcmRlci1yYWRpdXM6dmFyKC0tcmFkaXVzKTttYXJnaW4tYm90dG9" +
-  "tOjEycHg7b3ZlcmZsb3c6aGlkZGVufQogIGRldGFpbHMucXIgc3VtbWFyeXtwYWRkaW5nOjE3cHg" +
-  "gMThweDtjdXJzb3I6cG9pbnRlcjtmb250LXNpemU6MTQuNXB4O2ZvbnQtd2VpZ2h0OjYwMDtkaXN" +
-  "wbGF5OmZsZXg7YWxpZ24taXRlbXM6Y2VudGVyO2dhcDoxMXB4O2xpc3Qtc3R5bGU6bm9uZX0KIC" +
-  "BkZXRhaWxzLnFyIHN1bW1hcnk6Oi13ZWJraXQtZGV0YWlscy1tYXJrZXJ7ZGlzcGxheTpub25lf" +
-  "QogIGRldGFpbHMucXIgc3VtbWFyeSAuaWNve3dpZHRoOjM4cHg7aGVpZ2h0OjM4cHg7Ym9yZGVyL" +
-  "XJhZGl1czoxMXB4O2Rpc3BsYXk6Z3JpZDtwbGFjZS1pdGVtczpjZW50ZXI7ZmxleDpub25lO2JhY" +
-  "2tncm91bmQ6Y29sb3ItbWl4KGluIHNyZ2IsdmFyKC0tYWNjZW50KSAxNSUsdHJhbnNwYXJlbnQp" +
-  "O2JvcmRlcjoxcHggc29saWQgY29sb3ItbWl4KGluIHNyZ2IsdmFyKC0tYWNjZW50KSAzMCUsdHJhb" +
-  "nNwYXJlbnQpfQogIGRldGFpbHMucXIgc3VtbWFyeSAuaWNvIHN2Z3t3aWR0aDoxOHB4O2hlaWdod" +
-  "DoxOHB4O3N0cm9rZTp2YXIoLS1hY2NlbnQpO2ZpbGw6bm9uZTtzdHJva2Utd2lkdGg6MS45O3N0c" +
-  "m9rZS1saW5lY2FwOnJvdW5kO3N0cm9rZS1saW5lam9pbjpyb3VuZH0KICBkZXRhaWxzLnFyIHN1b" +
-  "W1hcnkgLmFycm93e21hcmdpbi1sZWZ0OmF1dG87Y29sb3I6dmFyKC0tbXV0ZWQpO3RyYW5zaXRpb" +
-  "246dHJhbnNmb3JtIC4yNXMgZWFzZX0KICBkZXRhaWxzLnFbb3Blbl0gc3VtbWFyeSAuYXJyb3d7d" +
-  "HJhbnNmb3JtOnJvdGF0ZSgxODBkZWcpfQogIC5xci1ib2R5e3BhZGRpbmc6MnB4IDE4cHggMjBwe" +
-  "Dt0ZXh0LWFsaWduOmNlbnRlcn0KICAucXItYm9keSBpbWd7d2lkdGg6MTAwJTttYXgtd2lkdGg6M" +
-  "jM2cHg7Ym9yZGVyLXJhZGl1czoxNHB4O2JhY2tncm91bmQ6I2ZmZjtwYWRkaW5nOjEwcHg7ZGlzc" +
-  "GxheTpibG9jazttYXJnaW46MCBhdXRvIDEycHh9CiAgLnFyLWJvZHkgc3ttYXJnaW46MDtmb250L" +
-  "XNpemU6MTIuNXB4O2NvbG9yOnZhcigtLW11dGVkKTtsaW5lLWhlaWdodDoxLjU1fQogIC5zb2NpY" +
-  "Wxze2Rpc3BsYXk6ZmxleDtnYXA6MTBweDtqdXN0aWZ5LWNvbnRlbnQ6Y2VudGVyO2ZsZXgtd3Jhc" +
-  "Dp3cmFwO21hcmdpbi1ib3R0b206MTRweH0KICAuc29jaWFscyBhe2Rpc3BsYXk6aW5saW5lLWZsZ" +
-  "Xg7YWxpZ24taXRlbXM6Y2VudGVyO2dhcDo4cHg7cGFkZGluZzoxMHB4IDE2cHg7Ym9yZGVyLXJhZ" +
-  "Gl1czo5OTlweDtiYWNrZ3JvdW5kOmNvbG9yLW1peChpbiBzcmdiLHZhcigtLXN1cmZhY2UpIDgyJ" +
-  "Sx0cmFuc3BhcmVudCk7Ym9yZGVyOjFweCBzb2xpZCB2YXIoLS1saW5lKTtjb2xvcjp2YXIoLS10Z" +
-  "Xh0KTt0ZXh0LWRlY29yYXRpb246bm9uZTtmb250LXNpemU6MTMuNXB4O2ZvbnQtd2VpZ2h0OjYwM" +
-  "Dt0cmFuc2l0aW9uOnRyYW5zZm9ybSAuMTZzIGVhc2UsYm9yZGVyLWNvbG9yIC4ycyBlYXNlfQogI" +
-  "C5zb2NpYWxzIGE6YWN0aXZle3RyYW5zZm9ybTpzY2FsZSguOTYpfQogIC5zb2NpYWxzIGE6aG92ZX" +
-  "J7Ym9yZGVyLWNvbG9yOmNvbG9yLW1peChpbiBzcmdiLHZhcigtLWFjY2VudCkgNDUlLHRyYW5zcGF" +
-  "yZW50KX0KICAuc29jaWFscyBzcmd7d2lkdGg6MTdweDtoZWlnaHQ6MTdweDtmaWxsOmN1cnJlbnR" +
-  "Db2xvcn0KICBmb290ZXJ7dGV4dC1hbGlnbjpjZW50ZXI7cGFkZGluZy10b3A6NnB4fQogIC5jb3B" +
-  "5e2ZvbnQtc2l6ZToxMS41cHg7Y29sb3I6dmFyKC0tbXV0ZWQpO29wYWNpdHk6Ljc1O21hcmdpbjo" +
-  "xNnB4IDAgMDtsaW5lLWhlaWdodDoxLjd9CiAgLmNvcHkgYXtjb2xvcjp2YXIoLS1tdXRlZCl9CiA" +
-  "gI3RvYXN0e3Bvc2l0aW9uOmZpeGVkO2xlZnQ6NTAlO2JvdHRvbTpjYWxjKDI4cHggKyBlbnYoc2F" +
-  "mZS1hcmVhLWluc2V0LWJvdHRvbSkpO3RyYW5zZm9ybTp0cmFuc2xhdGUoLTUwJSwyNnB4KTtvcGF" +
-  "jaXR5OjA7cG9pbnRlci1ldmVudHM6bm9uZTtiYWNrZ3JvdW5kOiNmZmY7Y29sb3I6IzA2MTAxODt" +
-  "mb250LXNpemU6MTRweDtmb250LXdlaWdodDo2NTA7cGFkZGluZzoxMnB4IDIwcHg7Ym9yZGVyLXJ" +
-  "hZGl1czo5OTlweDt6LWluZGV4OjYwO3doaXRlLXNwYWNlOm5vd3JhcDtib3gtc2hhZG93OjAgMTR" +
-  "weCAzNHB4IC0xMnB4IHJnYmEoMCwwLDAsLjYpO3RyYW5zaXRpb246b3BhY2l0eSAuMjZzIGVhc2U" +
-  "sdHJhbnNmb3JtIC4yNnMgY3ViaWMtYmV6aWVyKC4yMiwxLC4zNiwxKX0KICAjdG9hc3Qub257b3B" +
-  "hY2l0eToxO3RyYW5zZm9ybTp0cmFuc2xhdGUoLTUwJSwwKX0KPC9zdHlsZT4KPGRpdiBjbGFzcz0" +
-  "id3JhcCI+CiAgPGhlYWRlciBjbGFzcz0iaGVybyByZXZlYWwgZDEiPgogICAgPGRpdiBjbGFzcz0" +
-  "iYXZhdGFyIj48aW1nIHNyYz0iYXZhdGFyLnBuZyIgYWx0PSJGb3RvIGRlIEplcnJ5IE9zb3JubyI" +
-  "gd2lkdGg9IjEzMiIgaGVpZ2h0PSIxMzIiPjwvZGl2PgogICAgPHAgY2xhc3M9Im9yZyI+SmVycnk" +
-  "gU3lzdGVtczwvcD4KICAgIDxoMT5KZXJyeSBPc29ybm88L2gxPgogICAgPHAgY2xhc3M9InRhZ2x" +
-  "pbmUiPkxhIFRlY25vbG9naWEgYSB0dSBhbGNhbmNlPC9wPgogICAgPGRpdiBjbGFzcz0iY2hpcHM" +
-  "iPgogICAgICA8c3BhbiBjbGFzcz0iY2hpcCI+UHVlYmxhLCBNZXhpY288L3NwYW4+CiAgICAgIDx" +
-  "zcGFuIGNsYXNzPSJjaGlwIj5UYXJqZXRhIE5GQzwvc3Bhbj4KICAgIDwvZGl2PgogIDwvaGVhZGV" +
-  "yPgoKICA8c2VjdGlvbiBjbGFzcz0ic3RhY2sgcmV2ZWFsIGQyIj4KICAgIDxhIGNsYXNzPSJidG4" +
-  "gYnRuLXByaW1hcnkiIGhyZWY9IkplcnJ5LW9zb3Juby52Y2YiPgogICAgICA8c3ZnIHZpZXdCb3g" +
-  "9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJjdXJyZW50Q29sb3IiIHN0cm9rZS13aWR" +
-  "0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cGF" +
-  "0aCBkPSJNMTkgMjF2LTJhNCA0IDAgMCAwLTQtNEg5YTQgNCAwIDAgMC00IDR2MiIvPjxjaXJjbGU" +
-  "gY3g9IjEyIiBjeT0iNyIgcj0iNCIvPjxwYXRoIGQ9Ik0xOCA4djZNMTUgMTFoNiIvPjwvc3ZnPgog" +
-  "ICAgICBHdWFyZGFyIGNvbnRhY3RvCiAgICA8L2E+CiAgPC9zZWN0aW9uPgoKICA8c2VjdGlvbiBj" +
-  "bGFzcz0iZ3JpZCByZXZlYWwgZDMiPgogICAgPGEgY2xhc3M9InRpbGUiIGhyZWY9InRlbDorNTIy" +
-  "MjA0NzU3NDU5Ij4KICAgICAgPHNwYW4gY2xhc3M9ImljbyI+PHN2ZyB2aWV3Qm94PSIwIDAgMjQg" +
-  "MjQiPjxwYXRoIGQ9Ik0yMiAxNi45djNhMiAyIDAgMCAxLTIuMiAyIDE5LjggMTkuOCAwIDAgMS04" +
-  "LjYtMy4xIDE5LjUgMTkuNSAwIDAgMS02LTYgMTkuOCAxOS44IDAgMCAxIDIuMS00LjIgMiAyIDAg" +
-  "MCAxIDQuMSAyMGgzYTIgMiAwIDAgMSAyIDEuN2MuMSAxIC40IDEuOS43IDIuOGEyIDIgMCAwIDEt" +
-  "LjUgMi4xTDguMSA5LjlhMTYgMTYgMCAwIDAgNiA2bDEuMy0xLjNhMiAyIDAgMCAxIDIuMS0uNGMu" +
-  "OS4zIDEuOC42IDIuOC43YTIgMiAwIDAgMSAxLjcgMnoiLz48L3N2Zz48L3NwYW4+CiAgICAgIExs" +
-  "YW1hcjxzbWFsbD4yMjAgNDc1IDc0NTk8L3NtYWxsPgogICAgPC9hPgogICAgPGEgY2xhc3M9InRp" +
-  "bGUiIGhyZWY9Imh0dHBzOi8vd2EubWUvNTIyMjA0NzU3NDU5P3RleHQ9SG9sYSUyMEplcnJ5JTJD" +
-  "JTIwdmklMjB0dSUyMHRhcmpldGElMjBkaWdpdGFsJTIweSUyMHF1aWVybyUyMGluZm9ybWFjaW9u" +
-  "JTIwc29icmUlMjAiIHRhcmdldD0iX2JsYW5rIiByZWw9Im5vb3BlbmVyIj4KICAgICAgPHNwYW4g" +
-  "Y2xhc3M9ImljbyI+PHN2ZyB2aWV3Qm94PSIwIDAgMjQgMjQiPjxwYXRoIGQ9Ik0yMSAxMS41YTgu" +
-  "NCA4LjQgMCAwIDEtMTIuNSA3LjRMMC41IDIwLjVsMS42LTQuOUE4LjQgOC40IDAgMSAxIDIxIDEx" +
-  "LjV6Ii8+PHBhdGggZD0iTTguOSA4LjRjLjItLjUuNC0uNS43LS41aC42Yy4yIDAgLjUgMCAuNy41" +
-  "bC44IDEuOGMuMS4zLjEuNSAwIC43bC0uNS43Yy0uMi4yLS4yLjQtLjEuNmE2LjQgNi40IDAgMCAw" +
-  "IDIuOCAyLjRjLjMuMS41LjEuNy0uMWwuNi0uN2MuMi0uMi40LS4yLjYtLjFsMS44LjljLjQuMi41" +
-  "LjQuNS43IDAgLjEgMCAxLS42IDEuNy0uNS42LTEuMy45LTIuMS45YTEwIDEwIDAgMCAxLTguMS04" +
-  "YzAtLjguNC0xLjYgMS0yLjF6Ii8+PC9zdmc+PC9zcGFuPgogICAgICBXaGF0c0FwcDxzbWFsbD4y" +
-  "MjAgNDc1IDc0NTk8L3NtYWxsPgogICAgPC9hPgogICAgPGEgY2xhc3M9InRpbGUiIGhyZWY9Im1h" +
-  "aWx0bzpqZXJyeS5zeXN0ZW1zQGljbG91ZC5jb20iPgogICAgICA8c3BhbiBjbGFzcz0iaWNvIj48" +
-  "c3ZnIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHJlY3QgeD0iMi41IiB5PSI0LjUiIHdpZHRoPSIxOSIg" +
-  "aGVpZ2h0PSIxNSIgcng9IjIuNSIvPjxwYXRoIGQ9Im0zIDcgOC4xIDUuNmExLjYgMS42IDAgMCAw" +
-  "IDEuOCAwTDIxIDciLz48L3N2Zz48L3NwYW4+CiAgICAgIENvcnJlbzxzbWFsbD5qZXJyeS5zeXN0" +
-  "ZW1zQGljbG91ZC5jb208L3NtYWxsPgogICAgPC9hPgogICAgPGEgY2xhc3M9InRpbGUiIGhyZWY9" +
-  "Imh0dHBzOi8vamVycnlzeXN0ZW1zLmNvbS8iIHRhcmdldD0iX2JsYW5rIiByZWw9Im5vb3BlbmVy" +
-  "Ij4KICAgICAgPHNwYW4gY2xhc3M9ImljbyI+PHN2ZyB2aWV3Qm94PSIwIDAgMjQgMjQiPjxjaXJj" +
-  "bGUgY3g9IjEyIiBjeT0iMTIiIHI9IjkiLz48cGF0aCBkPSJNMy4yIDkuNWgxNy42TTMuMiAxNC41" +
-  "aDE3LjYiLz48cGF0aCBkPSJNMTIgM2ExNSAxNSAwIDAgMSAwIDE4IDE1IDE1IDAgMCAxIDAtMTha" +
-  "Ii8+PC9zdmc+PC9zcGFuPgogICAgICBTaXRpbyB3ZWI8c21hbGw+amVycnlzeXN0ZW1zLmNvbTwv" +
-  "c21hbGw+CiAgICA8L2E+CiAgPC9zZWN0aW9uPgoKICA8ZGV0YWlscyBjbGFzcz0icXIgcmV2ZWFs" +
-  "IGQ0Ij4KICAgIDxzdW1tYXJ5PgogICAgICA8c3BhbiBjbGFzcz0iaWNvIj48c3ZnIHZpZXdCb3g9" +
-  "IjAgMCAyNCAyNCI+PHJlY3QgeD0iMyIgeT0iMyIgd2lkdGg9IjciIGhlaWdodD0iNyIgcng9IjEu" +
-  "NCIvPjxyZWN0IHg9IjE0IiB5PSIzIiB3aWR0aD0iNyIgaGVpZ2h0PSI3IiByeD0iMS40Ii8+PHJl" +
-  "Y3QgeD0iMyIgeT0iMTQiIHdpZHRoPSI3IiBoZWlnaHQ9IjciIHJ4PSIxLjQiLz48cGF0aCBkPSJN" +
-  "MTQgMTRoM3YzaC0zeiJNMjAgMTR2M00xNyAyMGg0TTE0IDIwaC4wMSIvPjwvc3ZnPjwvc3Bhbj4K" +
-  "ICAgICAgTW9zdHJhciBjw7NkaWdvIFFSCiAgICAgIDxzdmcgY2xhc3M9ImFycm93IiB3aWR0aD0i" +
-  "MTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJj" +
-  "dXJyZW50Q29sb3IiIHN0cm9rZS13aWR0aD0iMi4yIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0" +
-  "cm9rZS1saW5lam9pbjpyb3VuZCI+PHBhdGggZD0ibTYgOSA2IDYgNi02Ii8+PC9zdmc+CiAgICA8" +
-  "L3N1bW1hcnk+CiAgICA8ZGl2IGNsYXNzPSJxci1ib2R5Ij4KICAgICAgPGltZyBzcmM9InFyLWNh" +
-  "cmQucG5nIiBhbHQ9IkPDs2RpZ28gUVIgZGUgbGEgdGFyamV0YSBkZSBKZXJyeSBPc29ybm8iIHdp" +
-  "ZHRoPSIyMzYiIGhlaWdodD0iMjM2IiBsb2FkaW5nPSJsYXp5Ij4KICAgICAgPHA+TXVlc3RyYSBl" +
-  "c3RlIGPDs2RpZ28gcGFyYSBxdWUgZ3VhcmRlbiB0dSBjb250YWN0byBhbCBpbnN0YW50ZSwgbyBw" +
-  "w61kZWxlcyBxdWUgYWNlcnF1ZW4gc3UgdGVsw6lmb25vIGEgdHUgdGFyamV0YSBORkMuPC9wPgog" +
-  "ICAgPC9kaXY+CiAgPC9kZXRhaWxzPgoKICA8c2VjdGlvbiBjbGFzcz0ic29jaWFscyByZXZlYWwg" +
-  "ZDUiPgogICAgPGEgaHJlZj0iaHR0cHM6Ly93d3cuZmFjZWJvb2suY29tL3Blb3BsZS9KZXJyeS1T" +
-  "eXN0ZW1zLzYxNTc2MTE4Nzk5NDg2LyIgdGFyZ2V0PSJfYmxhbmsiIHJlbD0ibm9vcGVuZXIiPjxz" +
-  "dmcgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMjIgMTJhMTAgMTAgMCAxIDAtMTEuNiA5" +
-  "Ljl2LTdINy45VjEyaDIuNVY5LjhjMC0yLjUgMS41LTMuOSAzLjgtMy45IDEuMSAwIDIuMi4yIDIu" +
-  "Mi4ydjIuNWgtMS4zYy0xLjIgMC0xLjYuOC0xLjYgMS42VjEyaDIuOGwtLjQgMi45aC0yLjR2N0Ex" +
-  "MCAxMCAwIDAgMCAyMiAxMnoiLz48L3N2Zz5GYWNlYm9vazwvYT4KICAgIDxhIGhyZWY9Imh0dHBz" +
-  "Oi8vd3d3LnlvdXR1YmUuY29tL0BqZXJyeXN5c3RlbXMiIHRhcmdldD0iX2JsYW5rIiByZWw9Im5v" +
-  "b3BlbmVyIj48c3ZnIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZD0iTTIzIDEyczAtMy40LS40" +
-  "LTVhMi42IDIuNiAwIDAgMC0xLjgtMS45QzE5LjEgNC43IDEyIDQuNyAxMiA0LjdzLTcuMSAwLTgu" +
-  "OC40QTIuNiAyLjYgMCAwIDAgMS40IDdDMSA4LjYgMSAxMiAxIDEyczAgMy40LjQgNWEyLjYgMi42" +
-  "IDAgMCAwIDEuOCAxLjljMS43LjQgOC44LjQgOC44LjRzNy4xIDAgOC44LS40YTIuNiAyLjYgMCAw" +
-  "IDAgMS44LTEuOWMuNC0xLjYuNC01IC40LTV6TTkuOCAxNS4zVjguN2w1LjcgMy4zeiIvPjwvc3Zn" +
-  "PllvdVR1YmU8L2E+CiAgPC9zZWN0aW9uPgoKICA8Zm9vdGVyIGNsYXNzPSJyZXZlYWwgZDYiPgog" +
-  "ICAgPGJ1dHRvbiBjbGFzcz0iYnRuIGJ0bi1naG9zdCIgaWQ9InNoYXJlQnRuIiB0eXBlPSJidXR0" +
-  "b24iPgogICAgICA8c3ZnIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJj" +
-  "dXJyZW50Q29sb3IiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJv" +
-  "a2UtbGluZWpvaW49InJvdW5kIj48cGF0aCBkPSJNNCAxMnY3YTIgMiAwIDAgMCAyIDJoMTJhMiAy" +
-  "IDAgMCAwIDItMnYtNyIvPjxwYXRoIGQ9Ik0xNiA2bC00LTQtNCA0Ii8+PHBhdGggZD0iTTEyIDJ2" +
-  "MTQiLz48L3N2Zz4KICAgICAgQ29tcGFydGlyIG1pIHRhcmpldGEKICAgIDwvYnV0dG9uPgogICAg" +
-  "PHAgY2xhc3M9ImNvcHkiPgogICAgICDCqSAyMDI2IEplcnJ5IFN5c3RlbXMgwrcgUHVlYmxhLCBN" +
-  "ZXhpY288YnI+CiAgICAgIDxhIGhyZWY9Imh0dHBzOi8vamVycnlzeXN0ZW1zLmNvbS8iPmplcnJ5" +
-  "c3lzdGVtcy5jb208L2E+CiAgICA8L3A+CiAgPC9mb290ZXI+CjwvZGl2Pgo8ZGl2IGlkPSJ0b2Fz" +
-  "dCIgcm9sZT0ic3RhdHVzIiBhcmlhLWxpdmU9InBvbGl0ZSI+PC9kaXY+";
-
-  // 4. Decodificador seguro binario UTF-8 (sin caídas por acentos o caracteres especiales)
-  function _decode(str) {
-    try {
-      var bin = atob(str);
-      var bytes = new Uint8Array(bin.length);
-      for (var i = 0; i < bin.length; i++) {
-        bytes[i] = bin.charCodeAt(i);
-      }
-      return new TextDecoder("utf-8").decode(bytes);
-    } catch(err) {
-      return "";
-    }
-  }
-
-  // Inyección limpia directamente en el body para mantener el layout intacto
-  document.documentElement.classList.add("anim");
-  document.body.innerHTML = _decode(_data);
-
-  // 5. Interactividad
-  setTimeout(function(){
-    document.documentElement.classList.remove("anim");
-  }, 1800);
-
-  var toast = document.getElementById("toast"), t;
-  function say(msg){
-    if(!toast) return;
-    toast.textContent = msg;
-    toast.classList.add("on");
-    clearTimeout(t);
-    t = setTimeout(function(){ toast.classList.remove("on"); }, 2100);
-  }
-
-  var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+  // --- Si el pase esta visible y el equipo no es iPhone, se avisa.
+  //     (El bloque puede no existir si el boton de Wallet esta oculto.)
+  var isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent)&&!window.MSStream;
   if(!isIOS){
-    var note = document.getElementById("walletNote");
-    if(note){ note.hidden = false; }
+    var note=document.getElementById("walletNote");
+    if(note){note.hidden=false;}
   }
 
-  var share = document.getElementById("shareBtn");
-  if(share){
-    share.addEventListener("click", function(){
-      var data = {
-        title: "Jerry Osorno | Jerry Systems",
-        text: "La Tecnologia a tu alcance — mi tarjeta digital:",
-        url: "https://jerrysystems.github.io/tarjeta/"
-      };
-      if(navigator.share){
-        navigator.share(data).catch(function(){});
-        return;
-      }
-      var done = function(){ say("Enlace copiado"); };
-      if(navigator.clipboard && navigator.clipboard.writeText){
-        navigator.clipboard.writeText(data.url).then(done, function(){ say(data.url); });
-      } else {
-        var ta = document.createElement("textarea");
-        ta.value = data.url;
-        document.body.appendChild(ta);
-        ta.select();
-        try { document.execCommand("copy"); done(); } catch(e){ say(data.url); }
-        document.body.removeChild(ta);
-      }
-    });
-  }
-
-  var longPress;
-  Array.prototype.forEach.call(document.querySelectorAll(".tile small"), function(el){
-    var tile = el.closest(".tile");
-    if(!tile) return;
-    function start(){
-      longPress = setTimeout(function(){
-        var txt = el.textContent.trim();
-        if(navigator.clipboard){
-          navigator.clipboard.writeText(txt).then(function(){
-            say("Copiado: " + txt);
-          }, function(){});
-        }
-        if(navigator.vibrate){ navigator.vibrate(12); }
-      }, 480);
+  // --- Compartir de forma nativa, con respaldo de copiado
+  var share=document.getElementById("shareBtn");
+  share.addEventListener("click",function(){
+    var data={title:"Jerry Osorno | Jerry Systems",
+              text:"La Tecnologia a tu alcance — mi tarjeta digital:",
+              url:"https://jerrysystems.github.io/tarjeta/"};
+    if(navigator.share){navigator.share(data).catch(function(){});return;}
+    var done=function(){say("Enlace copiado")};
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(data.url).then(done,function(){say(data.url)});
+    }else{
+      var ta=document.createElement("textarea");ta.value=data.url;
+      document.body.appendChild(ta);ta.select();
+      try{document.execCommand("copy");done();}catch(e){say(data.url);}
+      document.body.removeChild(ta);
     }
-    function stop(){ clearTimeout(longPress); }
-    ["touchstart", "mousedown"].forEach(function(evt){
-      tile.addEventListener(evt, start, { passive: true });
-    });
-    ["touchend", "touchcancel", "mouseup", "mouseleave", "scroll"].forEach(function(evt){
-      tile.addEventListener(evt, stop, { passive: true });
-    });
+  });
+
+  // --- Copiar datos al mantener pulsada una tarjeta de acción
+  var longPress;
+  Array.prototype.forEach.call(document.querySelectorAll(".tile small"),function(el){
+    var tile=el.closest(".tile");
+    function start(){
+      longPress=setTimeout(function(){
+        var txt=el.textContent.trim();
+        if(navigator.clipboard){navigator.clipboard.writeText(txt).then(function(){
+          say("Copiado: "+txt);},{});
+        }
+        if(navigator.vibrate){navigator.vibrate(12);}
+      },480);
+    }
+    function stop(){clearTimeout(longPress);}
+    ["touchstart","mousedown"].forEach(function(e){tile.addEventListener(e,start,{passive:true});});
+    ["touchend","touchcancel","mouseup","mouseleave","scroll"].forEach(function(e){
+      tile.addEventListener(e,stop,{passive:true});});
   });
 })();
 </script>
