@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Jerry Osorno | Jerry Systems</title>
-<meta name="description" content="Tarjeta de presentación digital de Jerry Osorno — Jerry Systems. La Tecnologia a tu alcance">
+<meta name="description" content="Tarjeta de presentación digital de Jerry Osorno — Jerry Systems. La Tecnología a tu alcance">
 
 <meta property="og:type" content="profile">
 <meta property="og:title" content="Jerry Osorno | Jerry Systems">
-<meta property="og:description" content="La Tecnologia a tu alcance — Guarda mi contacto, llámame o escríbeme por WhatsApp.">
+<meta property="og:description" content="La Tecnología a tu alcance — Guarda mi contacto, conoce nuestros desarrollos o escríbeme por WhatsApp.">
 <meta property="og:image" content="https://jerrysystems.github.io/tarjeta/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -16,8 +16,8 @@
 <meta property="profile:first_name" content="Jerry">
 <meta property="profile:last_name" content="Osorno">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content=" Osorno | Jerry Systems">
-<meta name="twitter:description" content="La Tecnologia a tu alcance">
+<meta name="twitter:title" content="Jerry Osorno | Jerry Systems">
+<meta name="twitter:description" content="La Tecnología a tu alcance">
 <meta name="twitter:image" content="https://jerrysystems.github.io/tarjeta/og-image.png">
 
 <meta name="theme-color" content="#0B1220">
@@ -30,187 +30,7 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="canonical" href="https://jerrysystems.github.io/tarjeta/">
-
-<style>
-:root{
-  --bg:#0B1220;
-  --surface:#141F35;
-  --accent:#58C0E0;
-  --accent2:#F8E038;
-  --text:#F2F6FF;
-  --muted:#8FA3C0;
-  --line:rgba(255,255,255,.10);
-  --radius:20px;
-}
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;padding:0}
-body{
-  background:var(--bg);color:var(--text);
-  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-  font-size:16px;line-height:1.5;
-  min-height:100vh;min-height:100dvh;
-  display:flex;justify-content:center;
-  padding:calc(24px + env(safe-area-inset-top)) 16px calc(40px + env(safe-area-inset-bottom));
-  position:relative;overflow-x:hidden;
-}
-/* halos de fondo */
-body::before,body::after{
-  content:"";position:fixed;border-radius:50%;filter:blur(90px);
-  pointer-events:none;z-index:0;
-}
-body::before{width:420px;height:420px;top:-160px;left:-120px;background:color-mix(in srgb,var(--accent) 26%,transparent)}
-body::after{width:360px;height:360px;bottom:-140px;right:-120px;background:color-mix(in srgb,var(--accent) 14%,transparent)}
-
-.wrap{width:100%;max-width:460px;position:relative;z-index:1}
-
-/* ---------- entrada animada ----------
-   El contenido es visible por defecto. Solo se oculta para animarlo cuando el
-   navegador ejecuta animaciones y el usuario no pidio reducir movimiento, asi
-   que al imprimir, leer con un lector de pantalla o capturar la pagina la
-   tarjeta se ve completa. */
-.reveal{opacity:1}
-@media (prefers-reduced-motion:no-preference){
-  html.anim .reveal{opacity:0;transform:translateY(14px);
-    animation:rise .62s cubic-bezier(.22,1,.36,1) forwards}
-  html.anim .d1{animation-delay:.05s}
-  html.anim .d2{animation-delay:.12s}
-  html.anim .d3{animation-delay:.19s}
-  html.anim .d4{animation-delay:.26s}
-  html.anim .d5{animation-delay:.33s}
-  html.anim .d6{animation-delay:.40s}
-  @keyframes rise{to{opacity:1;transform:none}}
-}
-@media (prefers-reduced-motion:reduce){*{transition:none!important}}
-@media print{
-  html.anim .reveal{opacity:1!important;transform:none!important;animation:none!important}
-}
-
-/* ---------- cabecera ---------- */
-.hero{text-align:center;padding:8px 0 22px}
-.avatar{
-  width:132px;height:132px;margin:0 auto 18px;border-radius:50%;
-  padding:3px;background:linear-gradient(140deg,var(--accent),var(--accent2));
-  box-shadow:0 12px 40px -12px color-mix(in srgb,var(--accent) 70%,transparent);
-}
-.avatar img{width:100%;height:100%;border-radius:50%;display:block;object-fit:cover;background:var(--surface)}
-.org{
-  margin:0 0 6px;font-size:11px;font-weight:700;letter-spacing:.20em;
-  text-transform:uppercase;color:var(--accent);
-}
-h1{margin:0;font-size:33px;line-height:1.14;font-weight:800;letter-spacing:-.022em}
-.tagline{margin:9px 0 0;color:var(--muted);font-size:15px}
-.chips{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;margin-top:14px}
-.chip{
-  font-size:11.5px;font-weight:600;letter-spacing:.02em;color:var(--muted);
-  border:1px solid var(--line);border-radius:999px;padding:5px 11px;
-  background:color-mix(in srgb,var(--surface) 60%,transparent);
-}
-
-/* ---------- botones grandes ---------- */
-.stack{display:grid;gap:11px;margin-bottom:12px}
-.btn{
-  display:flex;align-items:center;justify-content:center;gap:10px;
-  min-height:56px;border-radius:var(--radius);border:1px solid transparent;
-  font-size:16.5px;font-weight:700;letter-spacing:-.01em;
-  text-decoration:none;cursor:pointer;width:100%;
-  transition:transform .16s ease,box-shadow .2s ease,background .2s ease;
-}
-.btn:active{transform:scale(.975)}
-.btn svg{width:21px;height:21px;flex:none}
-.btn-primary{
-  background:linear-gradient(135deg,var(--accent),color-mix(in srgb,var(--accent) 55%,#2a6fd6));
-  color:#061018;box-shadow:0 10px 26px -12px color-mix(in srgb,var(--accent) 85%,transparent);
-}
-.btn-wallet{background:#000;color:#fff;border-color:#2a2a2a;box-shadow:0 10px 26px -14px #000}
-.btn-wallet svg{width:19px;height:23px;margin-top:-2px}
-.btn-ghost{
-  background:color-mix(in srgb,var(--surface) 75%,transparent);
-  color:var(--text);border-color:var(--line);
-}
-.hint{
-  margin:-3px 0 14px;font-size:12px;color:var(--muted);text-align:center;
-  display:flex;align-items:center;justify-content:center;gap:6px;
-}
-.hint .dot{width:6px;height:6px;border-radius:50%;background:var(--accent2);flex:none}
-
-/* ---------- rejilla de acciones ---------- */
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:12px}
-.tile{
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;
-  padding:18px 10px;border-radius:var(--radius);text-decoration:none;
-  background:color-mix(in srgb,var(--surface) 82%,transparent);
-  border:1px solid var(--line);color:var(--text);
-  font-size:14.5px;font-weight:600;min-height:104px;overflow:hidden;
-  transition:transform .16s ease,border-color .2s ease,background .2s ease;
-}
-.tile:active{transform:scale(.975)}
-.tile:hover{border-color:color-mix(in srgb,var(--accent) 45%,transparent)}
-.tile .ico{
-  width:42px;height:42px;border-radius:13px;display:grid;place-items:center;
-  background:color-mix(in srgb,var(--accent) 15%,transparent);
-  border:1px solid color-mix(in srgb,var(--accent) 30%,transparent);
-}
-.tile .ico svg{width:20px;height:20px;stroke:var(--accent);fill:none;
-  stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
-.tile small{display:block;align-self:stretch;text-align:center;font-size:11px;
-  font-weight:500;color:var(--muted);margin-top:2px;overflow:hidden;
-  text-overflow:ellipsis;white-space:nowrap}
-
-/* ---------- panel QR ---------- */
-details.qr{
-  background:color-mix(in srgb,var(--surface) 82%,transparent);
-  border:1px solid var(--line);border-radius:var(--radius);
-  margin-bottom:12px;overflow:hidden;
-}
-details.qr summary{
-  padding:17px 18px;cursor:pointer;font-size:14.5px;font-weight:600;
-  display:flex;align-items:center;gap:11px;list-style:none;
-}
-details.qr summary::-webkit-details-marker{display:none}
-details.qr summary .ico{
-  width:38px;height:38px;border-radius:11px;display:grid;place-items:center;flex:none;
-  background:color-mix(in srgb,var(--accent) 15%,transparent);
-  border:1px solid color-mix(in srgb,var(--accent) 30%,transparent);
-}
-details.qr summary .ico svg{width:18px;height:18px;stroke:var(--accent);fill:none;
-  stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
-details.qr summary .arrow{margin-left:auto;color:var(--muted);transition:transform .25s ease}
-details.qr[open] summary .arrow{transform:rotate(180deg)}
-.qr-body{padding:2px 18px 20px;text-align:center}
-.qr-body img{
-  width:100%;max-width:236px;border-radius:14px;background:#fff;padding:10px;display:block;margin:0 auto 12px;
-}
-.qr-body p{margin:0;font-size:12.5px;color:var(--muted);line-height:1.55}
-
-/* ---------- redes ---------- */
-.socials{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:14px}
-.socials a{
-  display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:999px;
-  background:color-mix(in srgb,var(--surface) 82%,transparent);
-  border:1px solid var(--line);color:var(--text);text-decoration:none;
-  font-size:13.5px;font-weight:600;transition:transform .16s ease,border-color .2s ease;
-}
-.socials a:active{transform:scale(.96)}
-.socials a:hover{border-color:color-mix(in srgb,var(--accent) 45%,transparent)}
-.socials svg{width:17px;height:17px;fill:currentColor}
-
-footer{text-align:center;padding-top:6px}
-.copy{
-  font-size:11.5px;color:var(--muted);opacity:.75;margin:16px 0 0;line-height:1.7;
-}
-.copy a{color:var(--muted)}
-
-/* ---------- toast ---------- */
-#toast{
-  position:fixed;left:50%;bottom:calc(28px + env(safe-area-inset-bottom));
-  transform:translate(-50%,26px);opacity:0;pointer-events:none;
-  background:#fff;color:#061018;font-size:14px;font-weight:650;
-  padding:12px 20px;border-radius:999px;z-index:60;white-space:nowrap;
-  box-shadow:0 14px 34px -12px rgba(0,0,0,.6);
-  transition:opacity .26s ease,transform .26s cubic-bezier(.22,1,.36,1);
-}
-#toast.on{opacity:1;transform:translate(-50%,0)}
-</style>
+<link rel="stylesheet" href="assets/style.min.css">
 <script>document.documentElement.classList.add("anim");</script>
 </head>
 <body>
@@ -220,10 +40,9 @@ footer{text-align:center;padding-top:6px}
     <div class="avatar"><img src="avatar.png" alt="Foto de Jerry Osorno" width="132" height="132"></div>
     <p class="org">Jerry Systems</p>
     <h1>Jerry Osorno</h1>
-    
-    <p class="tagline">La Tecnologia a tu alcance</p>
+    <p class="tagline">La Tecnología a tu alcance</p>
     <div class="chips">
-      <span class="chip">Puebla, Mexico</span>
+      <span class="chip">Puebla, México</span>
       <span class="chip">Tarjeta NFC</span>
     </div>
   </header>
@@ -233,7 +52,10 @@ footer{text-align:center;padding-top:6px}
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/><path d="M18 8v6M15 11h6"/></svg>
       Guardar contacto
     </a>
-    
+    <button class="btn btn-dev" id="openDevBtn" type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/></svg>
+      Algunos de Nuestros Desarrollos
+    </button>
   </section>
 
   <section class="grid reveal d3">
@@ -268,8 +90,8 @@ footer{text-align:center;padding-top:6px}
   </details>
 
   <section class="socials reveal d5">
-  <a href="https://www.facebook.com/people/Jerry-Systems/61576118799486/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.4v7A10 10 0 0 0 22 12z"/></svg>Facebook</a>
-  <a href="https://www.youtube.com/@jerrysystems" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M23 12s0-3.4-.4-5a2.6 2.6 0 0 0-1.8-1.9C19.1 4.7 12 4.7 12 4.7s-7.1 0-8.8.4A2.6 2.6 0 0 0 1.4 7C1 8.6 1 12 1 12s0 3.4.4 5a2.6 2.6 0 0 0 1.8 1.9c1.7.4 8.8.4 8.8.4s7.1 0 8.8-.4a2.6 2.6 0 0 0 1.8-1.9c.4-1.6.4-5 .4-5zM9.8 15.3V8.7l5.7 3.3z"/></svg>YouTube</a>
+    <a href="https://www.facebook.com/people/Jerry-Systems/61576118799486/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.4v7A10 10 0 0 0 22 12z"/></svg>Facebook</a>
+    <a href="https://www.youtube.com/@jerrysystems" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M23 12s0-3.4-.4-5a2.6 2.6 0 0 0-1.8-1.9C19.1 4.7 12 4.7 12 4.7s-7.1 0-8.8.4A2.6 2.6 0 0 0 1.4 7C1 8.6 1 12 1 12s0 3.4.4 5a2.6 2.6 0 0 0 1.8 1.9c1.7.4 8.8.4 8.8.4s7.1 0 8.8-.4a2.6 2.6 0 0 0 1.8-1.9c.4-1.6.4-5 .4-5zM9.8 15.3V8.7l5.7 3.3z"/></svg>YouTube</a>
   </section>
 
   <footer class="reveal d6">
@@ -278,69 +100,47 @@ footer{text-align:center;padding-top:6px}
       Compartir mi tarjeta
     </button>
     <p class="copy">
-      © 2026 Jerry Systems · Puebla, Mexico<br>
+      © 2026 Jerry Systems · Puebla, México<br>
       <a href="https://jerrysystems.com/">jerrysystems.com</a>
     </p>
   </footer>
 </div>
 
+<!-- Pantalla secundaria: Algunos de Nuestros Desarrollos -->
+<div class="dev-screen" id="devScreen" aria-hidden="true" role="dialog" aria-labelledby="devModalTitle">
+  <div class="dev-topbar">
+    <div class="dev-topbar-inner">
+      <div class="dev-brand">
+        <img src="avatar.png" alt="Jerry Systems" width="34" height="34">
+        <span>Jerry Systems</span>
+      </div>
+      <button class="btn-close" id="closeDevBtn" type="button">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        Volver
+      </button>
+    </div>
+  </div>
+  <div class="dev-scroll">
+    <div class="dev-container">
+      <div class="dev-header">
+        <h2 id="devModalTitle">Algunos de Nuestros Desarrollos</h2>
+        <p class="dev-intro">Desarrollamos cualquier tipo de proyecto a tu necesidad, completamente personalizado a tus necesidades personales o comerciales</p>
+      </div>
+
+      <div class="dev-grid" id="devGrid"></div>
+
+      <div class="audio-bar" id="audioBar">
+        <div class="audio-info">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+          <span>Muestra: Canción Jerry Systems</span>
+        </div>
+        <audio id="demoAudio" controls preload="none"></audio>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div id="toast" role="status" aria-live="polite"></div>
-
-<script>
-(function(){
-  "use strict";
-  // Respaldo: pase lo que pase, el contenido queda visible como maximo en 1,8 s.
-  setTimeout(function(){document.documentElement.classList.remove("anim");},1800);
-
-  var toast=document.getElementById("toast"),t;
-  function say(msg){toast.textContent=msg;toast.classList.add("on");
-    clearTimeout(t);t=setTimeout(function(){toast.classList.remove("on")},2100);}
-
-  // --- Si el pase esta visible y el equipo no es iPhone, se avisa.
-  //     (El bloque puede no existir si el boton de Wallet esta oculto.)
-  var isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent)&&!window.MSStream;
-  if(!isIOS){
-    var note=document.getElementById("walletNote");
-    if(note){note.hidden=false;}
-  }
-
-  // --- Compartir de forma nativa, con respaldo de copiado
-  var share=document.getElementById("shareBtn");
-  share.addEventListener("click",function(){
-    var data={title:"Jerry Osorno | Jerry Systems",
-              text:"La Tecnologia a tu alcance — mi tarjeta digital:",
-              url:"https://jerrysystems.github.io/tarjeta/"};
-    if(navigator.share){navigator.share(data).catch(function(){});return;}
-    var done=function(){say("Enlace copiado")};
-    if(navigator.clipboard&&navigator.clipboard.writeText){
-      navigator.clipboard.writeText(data.url).then(done,function(){say(data.url)});
-    }else{
-      var ta=document.createElement("textarea");ta.value=data.url;
-      document.body.appendChild(ta);ta.select();
-      try{document.execCommand("copy");done();}catch(e){say(data.url);}
-      document.body.removeChild(ta);
-    }
-  });
-
-  // --- Copiar datos al mantener pulsada una tarjeta de acción
-  var longPress;
-  Array.prototype.forEach.call(document.querySelectorAll(".tile small"),function(el){
-    var tile=el.closest(".tile");
-    function start(){
-      longPress=setTimeout(function(){
-        var txt=el.textContent.trim();
-        if(navigator.clipboard){navigator.clipboard.writeText(txt).then(function(){
-          say("Copiado: "+txt);},{});
-        }
-        if(navigator.vibrate){navigator.vibrate(12);}
-      },480);
-    }
-    function stop(){clearTimeout(longPress);}
-    ["touchstart","mousedown"].forEach(function(e){tile.addEventListener(e,start,{passive:true});});
-    ["touchend","touchcancel","mouseup","mouseleave","scroll"].forEach(function(e){
-      tile.addEventListener(e,stop,{passive:true});});
-  });
-})();
-</script>
+<script src="assets/app.min.js" defer></script>
 </body>
 </html>
